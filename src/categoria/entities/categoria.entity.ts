@@ -1,0 +1,16 @@
+import { Transform, TransformFnParams } from "class-transformer";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Produto } from "../../produto/entities/produto.entity";
+
+@Entity({name: 'tb_categorias'})
+export class Categoria{
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Transform(({ value }: TransformFnParams) => value?.trim())
+    @Column({length: 100, nullable: false})
+    tipo:string
+
+    @OneToMany(() => Produto, (produto) => produto.categoria)
+    produto: Produto[];
+}
