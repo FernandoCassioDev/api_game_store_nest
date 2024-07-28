@@ -82,14 +82,24 @@ export class ProdutoService {
     }
 
     async findByMore(preco: number): Promise<Produto[]> {
-        let buscaProduto: Array<Produto> = await this.produtoRepository.createQueryBuilder().where('produto.preco > :preco', { preco: preco }).orderBy('produto.preco', 'ASC').getMany()
+        let buscaProduto: Array<Produto> = await this.produtoRepository
+        .createQueryBuilder('produto')
+        .leftJoinAndSelect('produto.categoria', 'categoria')
+        .where('produto.preco > :preco', { preco: preco })
+        .orderBy('produto.preco', 'ASC')
+        .getMany()
 
         return buscaProduto
     }
 
-    async findByLess(preco: number): Promise<Produto[]>{
-        let buscaProduto: Array<Produto> = await this.produtoRepository.createQueryBuilder().where('produto.preco < :preco', { preco: preco }).orderBy('produto.preco', 'DESC').getMany()
-        
+    async findByLess(preco: number): Promise<Produto[]> {
+        let buscaProduto: Array<Produto> = await this.produtoRepository
+        .createQueryBuilder('produto')
+        .leftJoinAndSelect('produto.categoria', 'categoria')
+        .where('produto.preco < :preco', { preco: preco })
+        .orderBy('produto.preco', 'DESC')
+        .getMany()
+
         return buscaProduto
     }
 }
