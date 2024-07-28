@@ -22,6 +22,11 @@ export class Produto {
     @Column({ length: 255 })
     descricao: string
 
+    @Transform(({ value }: TransformFnParams) => value?.trim())
+    @IsNotEmpty()
+    @Column({length: 255})
+    capa: string
+
     @ManyToOne(() => Categoria, (categoria) => categoria.produto, {
         onDelete: 'CASCADE'
     })
