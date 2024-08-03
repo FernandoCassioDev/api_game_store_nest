@@ -13,8 +13,7 @@ export class Usuario {
   @Column({ length: 255, nullable: false })
   nome: string;
 
- 
-  @Column({ type:'date', nullable: false })
+  @Column({ type: 'date', nullable: false })
   dataNascimento: Date;
 
   @IsEmail()
